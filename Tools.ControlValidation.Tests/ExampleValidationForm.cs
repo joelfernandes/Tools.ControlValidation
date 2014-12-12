@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
-using Tools.ControlValidation;
+using Res = Tools.ControlValidation.Tests.Properties.Resources;
 
-namespace ControlValidationTests
+namespace Tools.ControlValidation.Tests
 {
     public partial class ExampleValidationForm : Form, IUIValidator
     {
@@ -18,6 +18,12 @@ namespace ControlValidationTests
         {
             InitializeComponent();
             Validator = new Validator(this);
+
+            //_textBox.TextChanged += (sender, e) => ValidateTextBox();
+            //_dateTimePicker.ValueChanged += (sender, e) => ValidateDateTimePicker();
+            //_comboBox.SelectedIndexChanged += (sender, e) => ValidateComboBox();
+            //_checkedListBox.ItemCheck += (sender, e) => ValidateCheckedListBox();
+            //_checkBox.CheckedChanged += (sender, e) => ValidateCheckBox();
         }
 
         private void ValidateAll()
@@ -40,7 +46,7 @@ namespace ControlValidationTests
               4) Must write "cool"
              */
 
-            Validator.Validate(_textBox)
+            Validator.Start(_textBox)
                 .HasText()
                 .DisplayOnError("Text is mandatory")
                 .HasMinumTextLenght(20)
@@ -49,7 +55,8 @@ namespace ControlValidationTests
                 .DisplayOnError("maximum 30 characters")
                 .Other(tb => tb.Text.ToLowerInvariant().Contains("cool"))
                 .DisplayOnError("Must write \"cool\"")
-                .DisplayOnSuccess("TextBox: pass!");
+                .DisplayOnSuccess("TextBox: pass!")
+                .End();
         }
 
         public void ValidateDateTimePicker()
@@ -61,13 +68,14 @@ namespace ControlValidationTests
               3) On error you get a hint
              */
 
-            Validator.Validate(_dateTimePicker)
+            Validator.Start(_dateTimePicker)
                 .IsDateBeforeCurrent()
                 .DisplayOnError("Answer is not in the future")
                 .Other(dtp => dtp.Value.Date == Birthdate)
                 .DisplayOnError("That's not my birthdate (check the form header)")
                 .OnError(dtp => Text = "1989-09-29 [yyyy-MM-dd]")
-                .DisplayOnSuccess("DateTimePicker: pass!");
+                .DisplayOnSuccess("DateTimePicker: pass!")
+                .End();
         }
 
         private void ValidateGroupBox()
@@ -83,11 +91,12 @@ namespace ControlValidationTests
                    case being a pirate is fine.
              */
 
-            Validator.Validate(_groupBox)
+            Validator.Start(_groupBox)
                 .Other(gb => _radioButtonGoodBoy.Checked)
                 .Unless(gb => _radioButtonPirateArgh.Checked && _textBox.Text.ToLowerInvariant().Contains("pirate"))
                 .DisplayOnError("Must say \"Yes, yes! I want a new computer!\"")
-                .DisplayOnSuccess(_radioButtonPirateArgh.Checked ? "Let's sail t' seas!" : "B good :)");
+                .DisplayOnSuccess(_radioButtonPirateArgh.Checked ? "Let's sail t' seas!" : "B good :)")
+                .End();
         }
 
         private void ValidateComboBox()
@@ -107,7 +116,7 @@ namespace ControlValidationTests
               3) Don't bring the armageddon
              */
 
-            Validator.Validate(_comboBox)
+            Validator.Start(_comboBox)
                 .HasSelection()
                 .DisplayOnError("Selection is mandatory")
                 .IsItemSelected("Beer & Pizza")
@@ -120,7 +129,8 @@ namespace ControlValidationTests
                             "Do fear, for the end is near", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 })
-                .DisplayOnSuccess("I really could use some fruit");
+                .DisplayOnSuccess("I really could use some fruit")
+                .End();
         }
 
         private void ValidateCheckedListBox()
@@ -141,12 +151,13 @@ namespace ControlValidationTests
               2 ) Must include pie in selection
              */
 
-            Validator.Validate(_checkedListBox)
+            Validator.Start(_checkedListBox)
                 .HasMinimumSelectionCount(3)
                 .DisplayOnError("Must select 3 citations from list")
                 .IsItemSelected("Humm! I love 3.14159265359")
                 .DisplayOnError("Must include pie in selection")
-                .DisplayOnSuccess("Good choice");
+                .DisplayOnSuccess("Good choice")
+                .End();
         }
 
         private void ValidateCheckBox()
@@ -157,10 +168,11 @@ namespace ControlValidationTests
                   the biggest lie on the web
              */
 
-            Validator.Validate(_checkBox)
+            Validator.Start(_checkBox)
                 .IsChecked()
                 .DisplayOnError("Must agree to the terms & conditions")
-                .DisplayOnSuccess("Yes you agree :)");
+                .DisplayOnSuccess("Yes you agree :)")
+                .End();
         }
 
         private void ButtonSubmit_Click(object sender, EventArgs e)

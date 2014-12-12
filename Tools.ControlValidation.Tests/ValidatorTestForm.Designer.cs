@@ -1,4 +1,4 @@
-﻿namespace ControlValidationTests
+﻿namespace Tools.ControlValidation.Tests
 {
     partial class ValidatorTestForm
     {

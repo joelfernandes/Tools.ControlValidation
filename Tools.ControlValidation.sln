@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.ControlValidation", "Tools.ControlValidation\Tools.ControlValidation.csproj", "{B48649A4-DFF6-403B-BB3F-41B288A791B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControlValidationTests", "ControlValidationTests\ControlValidationTests.csproj", "{3ED7B0E1-DD7A-4D14-8E00-3DDC9589EECB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.ControlValidation.Tests", "Tools.ControlValidation.Tests\Tools.ControlValidation.Tests.csproj", "{3ED7B0E1-DD7A-4D14-8E00-3DDC9589EECB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

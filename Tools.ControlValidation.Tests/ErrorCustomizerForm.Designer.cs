@@ -1,4 +1,4 @@
-﻿namespace ControlValidationTests
+﻿namespace Tools.ControlValidation.Tests
 {
     partial class ErrorCustomizerForm
     {
@@ -38,18 +38,17 @@
             this._labelErrorBlinkRate = new System.Windows.Forms.Label();
             this._numericUpDownBlinkRate = new System.Windows.Forms.NumericUpDown();
             this._labelBadass = new System.Windows.Forms.Label();
-            this._groupBoxAll = new System.Windows.Forms.GroupBox();
             this._groupBoxCustom = new System.Windows.Forms.GroupBox();
+            this._buttonChangeError = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._numericUpDownPadding)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._numericUpDownBlinkRate)).BeginInit();
-            this._groupBoxAll.SuspendLayout();
             this._groupBoxCustom.SuspendLayout();
             this.SuspendLayout();
             // 
             // _buttonTest
             // 
             this._buttonTest.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this._buttonTest.Location = new System.Drawing.Point(250, 215);
+            this._buttonTest.Location = new System.Drawing.Point(250, 203);
             this._buttonTest.Name = "_buttonTest";
             this._buttonTest.Size = new System.Drawing.Size(192, 62);
             this._buttonTest.TabIndex = 1;
@@ -81,7 +80,7 @@
             // 
             this._labelErrorBlinkStyle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this._labelErrorBlinkStyle.AutoSize = true;
-            this._labelErrorBlinkStyle.Location = new System.Drawing.Point(23, 40);
+            this._labelErrorBlinkStyle.Location = new System.Drawing.Point(23, 93);
             this._labelErrorBlinkStyle.Name = "_labelErrorBlinkStyle";
             this._labelErrorBlinkStyle.Size = new System.Drawing.Size(95, 13);
             this._labelErrorBlinkStyle.TabIndex = 11;
@@ -120,7 +119,7 @@
             this._comboBoxBlinkStyle.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this._comboBoxBlinkStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._comboBoxBlinkStyle.FormattingEnabled = true;
-            this._comboBoxBlinkStyle.Location = new System.Drawing.Point(124, 37);
+            this._comboBoxBlinkStyle.Location = new System.Drawing.Point(124, 90);
             this._comboBoxBlinkStyle.Name = "_comboBoxBlinkStyle";
             this._comboBoxBlinkStyle.Size = new System.Drawing.Size(178, 21);
             this._comboBoxBlinkStyle.TabIndex = 12;
@@ -129,7 +128,7 @@
             // 
             this._labelErrorBlinkRate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this._labelErrorBlinkRate.AutoSize = true;
-            this._labelErrorBlinkRate.Location = new System.Drawing.Point(328, 40);
+            this._labelErrorBlinkRate.Location = new System.Drawing.Point(328, 93);
             this._labelErrorBlinkRate.Name = "_labelErrorBlinkRate";
             this._labelErrorBlinkRate.Size = new System.Drawing.Size(92, 13);
             this._labelErrorBlinkRate.TabIndex = 11;
@@ -139,9 +138,14 @@
             // 
             this._numericUpDownBlinkRate.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this._numericUpDownBlinkRate.Enabled = false;
-            this._numericUpDownBlinkRate.Location = new System.Drawing.Point(426, 38);
+            this._numericUpDownBlinkRate.Location = new System.Drawing.Point(426, 91);
             this._numericUpDownBlinkRate.Maximum = new decimal(new int[] {
             500,
+            0,
+            0,
+            0});
+            this._numericUpDownBlinkRate.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -158,56 +162,52 @@
             // 
             this._labelBadass.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this._labelBadass.AutoSize = true;
-            this._labelBadass.Location = new System.Drawing.Point(247, 280);
+            this._labelBadass.Location = new System.Drawing.Point(247, 268);
             this._labelBadass.Name = "_labelBadass";
             this._labelBadass.Size = new System.Drawing.Size(195, 13);
             this._labelBadass.TabIndex = 11;
             this._labelBadass.Text = "I\'m badass because I clicked the button";
             // 
-            // _groupBoxAll
-            // 
-            this._groupBoxAll.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this._groupBoxAll.Controls.Add(this._labelErrorBlinkStyle);
-            this._groupBoxAll.Controls.Add(this._comboBoxBlinkStyle);
-            this._groupBoxAll.Controls.Add(this._numericUpDownBlinkRate);
-            this._groupBoxAll.Controls.Add(this._labelErrorBlinkRate);
-            this._groupBoxAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._groupBoxAll.Location = new System.Drawing.Point(28, 12);
-            this._groupBoxAll.Name = "_groupBoxAll";
-            this._groupBoxAll.Size = new System.Drawing.Size(632, 87);
-            this._groupBoxAll.TabIndex = 14;
-            this._groupBoxAll.TabStop = false;
-            this._groupBoxAll.Text = "General settings - affects ALL control/validations";
-            // 
             // _groupBoxCustom
             // 
             this._groupBoxCustom.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this._groupBoxCustom.Controls.Add(this._buttonChangeError);
+            this._groupBoxCustom.Controls.Add(this._labelErrorBlinkStyle);
             this._groupBoxCustom.Controls.Add(this._labelErrorAlignment);
+            this._groupBoxCustom.Controls.Add(this._comboBoxBlinkStyle);
+            this._groupBoxCustom.Controls.Add(this._numericUpDownBlinkRate);
             this._groupBoxCustom.Controls.Add(this._comboBoxErrorAlign);
+            this._groupBoxCustom.Controls.Add(this._labelErrorBlinkRate);
             this._groupBoxCustom.Controls.Add(this._labelErrorPadding);
             this._groupBoxCustom.Controls.Add(this._numericUpDownPadding);
-            this._groupBoxCustom.Location = new System.Drawing.Point(28, 105);
+            this._groupBoxCustom.Location = new System.Drawing.Point(28, 12);
             this._groupBoxCustom.Name = "_groupBoxCustom";
-            this._groupBoxCustom.Size = new System.Drawing.Size(632, 87);
+            this._groupBoxCustom.Size = new System.Drawing.Size(632, 166);
             this._groupBoxCustom.TabIndex = 15;
             this._groupBoxCustom.TabStop = false;
             this._groupBoxCustom.Text = "Customization - affects the button below";
             // 
-            // ValidatorTestForm
+            // _buttonChangeError
+            // 
+            this._buttonChangeError.Location = new System.Drawing.Point(124, 118);
+            this._buttonChangeError.Name = "_buttonChangeError";
+            this._buttonChangeError.Size = new System.Drawing.Size(178, 23);
+            this._buttonChangeError.TabIndex = 14;
+            this._buttonChangeError.Text = "Change Error";
+            this._buttonChangeError.UseVisualStyleBackColor = true;
+            // 
+            // ErrorCustomizerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 350);
             this.Controls.Add(this._groupBoxCustom);
-            this.Controls.Add(this._groupBoxAll);
             this.Controls.Add(this._labelBadass);
             this.Controls.Add(this._buttonTest);
             this.Name = "ErrorCustomizerForm";
             this.Text = "Customization (Button Validation)";
             ((System.ComponentModel.ISupportInitialize)(this._numericUpDownPadding)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._numericUpDownBlinkRate)).EndInit();
-            this._groupBoxAll.ResumeLayout(false);
-            this._groupBoxAll.PerformLayout();
             this._groupBoxCustom.ResumeLayout(false);
             this._groupBoxCustom.PerformLayout();
             this.ResumeLayout(false);
@@ -227,8 +227,8 @@
         private System.Windows.Forms.Label _labelErrorBlinkRate;
         private System.Windows.Forms.NumericUpDown _numericUpDownBlinkRate;
         private System.Windows.Forms.Label _labelBadass;
-        private System.Windows.Forms.GroupBox _groupBoxAll;
         private System.Windows.Forms.GroupBox _groupBoxCustom;
+        private System.Windows.Forms.Button _buttonChangeError;
     }
 }
 

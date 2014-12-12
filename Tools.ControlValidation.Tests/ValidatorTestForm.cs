@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace ControlValidationTests
+namespace Tools.ControlValidation.Tests
 {
     public partial class ValidatorTestForm : Form
     {

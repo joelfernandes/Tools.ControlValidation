@@ -18,12 +18,9 @@ namespace Tools.ControlValidation
         /// Create an extended validation object for given control.
         /// </summary>
         /// <param name="control">control to validate.</param>
-        /// <param name="errorProvider">Error provider to display error messages.</param>
-        /// <param name="successProvider">Error provider to display success messages.</param>
         /// <param name="optional">Whether this validation is optional or not.</param>
-        public ExtendedValidation(Control control, ErrorProvider errorProvider,
-            ErrorProvider successProvider, bool optional = false) :
-            base(control, errorProvider, successProvider, optional) { }
+        public ExtendedValidation(Control control, bool optional = false) :
+            base(control, optional) { }
 
         /// <summary>
         /// Apply Negation operator to the next validation. Next validtion will
@@ -184,24 +181,43 @@ namespace Tools.ControlValidation
         /// <summary>
         /// Calling this method will make the validation fail. 
         /// Let this be a warn for you. Muahahah.
+        /// <para>This method calls <see cref="Validation.End"/> internally.</para>
         /// </summary>
-        /// <returns>This validation.</returns>
-        public ExtendedValidation<T> Fail()
+        public void Fail()
         {
-            IsValid = false;
-            return this;
+            Fail(DefaultErrorMessage);
         }
         /// <summary>
         /// Calling this method will make the validation fail. 
         /// Let this be a warn for you. Muahahah. 
-        /// <para> </para>
-        /// This overload is a shortcut to <code>Fail().DisplayOnError(errorMessage)</code>.
+        /// <para>This method calls <see cref="Validation.End"/> internally.</para>
         /// </summary>
         /// <param name="errorMessage">Error message to display.</param>
         /// <returns>This validation.</returns>
-        public ExtendedValidation<T> Fail(string errorMessage)
+        public void Fail(string errorMessage)
         {
-            return Fail().DisplayOnError(errorMessage);
+            IsValid = false;
+            DisplayOnError(errorMessage);
+            End();
+        }
+        /// <summary>
+        /// Calling this method will make the validation pass.
+        /// <para>This method calls <see cref="Validation.End"/> internally.</para>
+        /// </summary>
+        public void Pass()
+        {
+            Pass(DefaultSuccessMessage);
+        }
+        /// <summary>
+        /// Calling this method will make the validation pass. 
+        /// <para>This method calls <see cref="Validation.End"/> internally.</para>
+        /// </summary>
+        /// <param name="successMessage">Error message to display.</param>
+        public void Pass(string successMessage)
+        {
+            SoftReset();
+            DisplayOnSuccess(successMessage);
+            End();
         }
 
         /// <summary>
@@ -224,7 +240,7 @@ namespace Tools.ControlValidation
 
         /// <summary>
         /// This aligns the error/success icon according to given value. The alignment is related to the control being validated.
-        /// <para>To align all validations at the same time set <see cref="Validation.GeneralAlignment"/> instead of calling this method.</para>
+        /// <para>To align all validations at the same time set <see cref="Validation.DefaultAlignment"/> instead of calling this method.</para>
         /// </summary>
         /// <param name="alignment">New alignment for icons.</param>
         /// <returns>This validation.</returns>
@@ -235,7 +251,7 @@ namespace Tools.ControlValidation
         }
         /// <summary>
         /// This aligns the error/success icon to <see cref="ErrorIconAlignment.MiddleLeft"/>. The alignment is related to the control being validated.
-        /// <para>To align all validations at the same time set <see cref="Validation.GeneralAlignment"/> instead of calling this method.</para>
+        /// <para>To align all validations at the same time set <see cref="Validation.DefaultAlignment"/> instead of calling this method.</para>
         /// <para>This method is a shortcut to <code>SetErrorLocation(ErrorIconAlignment.MiddleLeft)</code>.</para>
         /// </summary>
         /// <returns>This validation.</returns>
@@ -246,9 +262,9 @@ namespace Tools.ControlValidation
         }
         /// <summary>
         /// This aligns the error/success icon  to <see cref="ErrorIconAlignment.MiddleRight"/>. The alignment is related to the control being validated.
-        /// <para>To align all validations at the same time set <see cref="Validation.GeneralAlignment"/> instead of calling this method.</para>
+        /// <para>To align all validations at the same time set <see cref="Validation.DefaultAlignment"/> instead of calling this method.</para>
         /// <para>This method is a shortcut to <code>SetErrorLocation(ErrorIconAlignment.MiddleRight)</code>.</para>
-        /// <para>Unless <see cref="Validation.GeneralAlignment"/> has been set otherwise, this is the default behavior.</para>
+        /// <para>Unless <see cref="Validation.DefaultAlignment"/> has been set otherwise, this is the default behavior.</para>
         /// </summary>
         /// <returns>This validation.</returns>
         public ExtendedValidation<T> AlignRight()
@@ -259,7 +275,7 @@ namespace Tools.ControlValidation
 
         /// <summary>
         /// This sets a padding value for error/success icon according to given value. The padding is related to the control being validated.
-        /// <para>To specify the value for all validations at the same time set <see cref="Validation.GeneralPadding"/> instead of calling this method.</para>
+        /// <para>To specify the value for all validations at the same time set <see cref="Validation.DefaultPadding"/> instead of calling this method.</para>
         /// </summary>
         /// <param name="padding">New padding value for icons.</param>
         /// <returns>This validation.</returns>
@@ -269,6 +285,21 @@ namespace Tools.ControlValidation
             return this;
         }
 
+        /// <summary>
+        /// Specify a blink style (and rate) for the icons. Parameter <paramref name="blinkRate"/> 
+        /// is not used if <paramref name="blinkStyle"/> is set to <see cref="ErrorBlinkStyle.NeverBlink"/>.
+        /// <para>The padding is related to the control being validated.</para>
+        /// <para>To specify the value for all validations at the same time set <see cref="Validation.DefaultBlinkStyle"/> 
+        /// and <see cref="Validation.DefaultBlinkRate"/>instead of calling this method.</para>
+        /// </summary>
+        /// <param name="blinkStyle">Blinks tyle to apply to icons.</param>
+        /// <param name="blinkRate">Blink rate to apply to icons.</param>
+        /// <returns>This validation.</returns>
+        public ExtendedValidation<T> Blink(ErrorBlinkStyle blinkStyle, int blinkRate)
+        {
+            SetBlinkStyle(blinkStyle, blinkRate);
+            return this;
+        }
 
     }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Tools.ControlValidation.Properties;
 
 namespace Tools.ControlValidation
 {
@@ -12,25 +11,6 @@ namespace Tools.ControlValidation
     /// </summary>
     public class Validator
     {
-        /// <summary>
-        /// Gets or sets default error message to present in <see cref="Validation.DisplayOnError(bool)"/>
-        /// method if no text is provided.
-        /// </summary>
-        public static string GlobalDefaultErrorMessage= "Invalid field";
-        /// <summary>
-        /// Gets or sets default success message to present in <see cref="Validation.DisplayOnSuccess()"/>
-        /// method if no text is provided.
-        /// </summary>
-        public static string GlobalDefaultSuccessMessage= "This field is valid";
-
-        /// <summary>
-        /// The error provider that displays error messages.
-        /// </summary>
-        private ErrorProvider _errorProvider;
-        /// <summary>
-        /// Good guy error provider that displays success messages with a success icon.
-        /// </summary>
-        private ErrorProvider _successProvider;
         /// <summary>
         /// Keeps track of whether last validation performed by this validator had errors or not.
         /// This is used to fire <see cref="ValidStateChange"/> event only when state actually changes.
@@ -86,9 +66,6 @@ namespace Tools.ControlValidation
 
             Validations = new List<Validation>();
 
-            _errorProvider = new ErrorProvider { BlinkStyle = ErrorBlinkStyle.NeverBlink };
-            _successProvider = new ErrorProvider { BlinkStyle = ErrorBlinkStyle.NeverBlink, Icon = Resources.Success };
-
             RootControl = rootControl;
         }
 
@@ -106,28 +83,23 @@ namespace Tools.ControlValidation
         /// <typeparam name="T">Type of control to validate.</typeparam>
         /// <param name="control">The control to validate.</param>
         /// <returns>Validation object.</returns>
-        public ExtendedValidation<T> Validate<T>(T control) where T : Control
+        public ExtendedValidation<T> Start<T>(T control) where T : Control
         {
-            var val = new ExtendedValidation<T>(control, _errorProvider, _successProvider);
+            var val = new ExtendedValidation<T>(control);
             var existing = Validations.FirstOrDefault(x => x.Equals(val));
 
             if (existing != null)
             {
-                existing.Reset();
+                existing.SoftReset();
                 return (ExtendedValidation<T>)existing;
             }
-
-            val.SetErrorLocation(Validation.GeneralAlignment);
-            val.SetErrorPadding(Validation.GeneralPadding);
-            val.SetErrorBlinkStyle(Validation.GeneralBlinkStyle);
-            val.SetErrorBlinkRate(Validation.GeneralBlinkRate);
-
+            
             val.ValidStateChange += Validation_ValidStateChange;
             Validations.Add(val);
             return val;
         }
         /// <summary>
-        /// <para>Same as <see cref="Validate{T}(T)"/>, but with the exception that this 
+        /// <para>Same as <see cref="Start{T}"/>, but with the exception that this 
         /// validation will only be carried if given condition is met. </para>
         /// <para>If given CONDITION IS NOT MET, validation will be set to OPTIONAL and thus will be 
         /// ALWAYS VALID. If given condition is met, validation occurrs as usual.</para>
@@ -136,12 +108,12 @@ namespace Tools.ControlValidation
         /// <param name="condition">Condition to test. If condition is met, validation proceeds as usual.</param>
         /// <param name="control">The control to validate.</param>
         /// <returns>Validation object</returns>
-        public ExtendedValidation<T> ValidateIf<T>(T control, Func<T, bool> condition) where T : Control
+        public ExtendedValidation<T> StartIf<T>(T control, Func<T, bool> condition) where T : Control
         {
             // if condition is not met, optional is true, hence the negate oprator before condition()
             var optional = !condition(control);
 
-            var val = new ExtendedValidation<T>(control, _errorProvider, _successProvider, optional);
+            var val = new ExtendedValidation<T>(control, optional);
             var existing = Validations.FirstOrDefault(x => x.Equals(val));
 
             if (existing != null)
@@ -155,16 +127,16 @@ namespace Tools.ControlValidation
             return val;
         }
         /// <summary>
-        /// Same as Validate{T} except that it does not keep track of validated control,
+        /// Same as <see cref="Start{T}"/> except that it does not keep track of validated control,
         /// meaning that it won't be added to the inner collection and won't be accounted 
         /// when calling <see cref="ErrorCount"/>.
         /// </summary>
         /// <typeparam name="T">Type of control to validate.</typeparam>
         /// <param name="control">The control to validate.</param>
         /// <returns>Validation object.</returns>
-        public ExtendedValidation<T> ValidateOnce<T>(T control) where T : Control
+        public ExtendedValidation<T> StartOnce<T>(T control) where T : Control
         {
-            return new ExtendedValidation<T>(control, _errorProvider, _successProvider);
+            return new ExtendedValidation<T>(control);
         }
 
         /// <summary>

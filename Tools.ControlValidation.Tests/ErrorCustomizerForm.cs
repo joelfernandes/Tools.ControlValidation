@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using Tools.ControlValidation;
 
-namespace ControlValidationTests
+namespace Tools.ControlValidation.Tests
 {
     public partial class ErrorCustomizerForm : Form, IUIValidator
     {
+        private string _error = "I said not to click me";
+
         public Validator Validator { get; private set; }
 
         public ErrorCustomizerForm()
         {
             InitializeComponent();
             Validator = new Validator(this);
+
+            _buttonChangeError.Click += (sender, e) => _error += "!";
 
             // Populate icon alignment combobox
             _comboBoxErrorAlign.DataSource = Enum.GetValues(typeof(ErrorIconAlignment)).Cast<ErrorIconAlignment>(); 
@@ -34,18 +37,17 @@ namespace ControlValidationTests
             if (!_labelBadass.Visible)
                 _labelBadass.Visible = true;
 
-            // Following two lines affect ALL control validations (cannot be customized per validation).
-            // Usually I place them at the beginning of the program execution (they are here for demo purposes).
-            Validation.GeneralBlinkRate = (int)_numericUpDownBlinkRate.Value;
-            Validation.GeneralBlinkStyle = (ErrorBlinkStyle)_comboBoxBlinkStyle.SelectedItem;
-            
-            Validator.Validate(_buttonTest)
-                .Fail("I said not to click me")                               // Just add the error icon
-                .Align((ErrorIconAlignment)_comboBoxErrorAlign.SelectedItem)  // Add an alignment to the provider of this control according to UI value
-                .Pad((int)_numericUpDownPadding.Value);                       // Add a padding to the provider of this control according to UI value
+            var errorBlinkStyle = (ErrorBlinkStyle)_comboBoxBlinkStyle.SelectedItem;
+            var blinkRate = (int)_numericUpDownBlinkRate.Value;
 
-            Validator.Validate(_labelBadass)
-                .DisplayOnSuccess("Achievement: badass");                     // No validation is performed, just add the success icon and message
+            Validator.Start(_buttonTest)
+                .Align((ErrorIconAlignment)_comboBoxErrorAlign.SelectedItem)  // Add an alignment to the provider of this control according to UI value
+                .Pad((int)_numericUpDownPadding.Value)                        // Add a padding to the provider of this control according to UI value
+                .Blink(errorBlinkStyle, blinkRate)
+                .Fail(_error);                                                 // Just add the error icon. No need to call End().
+
+            Validator.Start(_labelBadass)
+                .Pass("Achievement: badass");                                 // No validation is performed, just add the success icon and message. No need to call End()
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
