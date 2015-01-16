@@ -132,8 +132,12 @@ namespace Tools.ControlValidation
         /// last error (true) or leave always the first error visible
         /// even if multiple validations fail.</param>
         /// <returns>This validation.</returns>
+        /// <exception cref="Exception">When an empty string is given in parameter <paramref name="message"/>.</exception>
         new public ExtendedValidation<T> DisplayOnError(string message, bool overwriteLastError = false)
         {
+            if (message == string.Empty)
+                throw new Exception("An empty string is not allowed (as it would clear the validation text and thus hide it");
+
             base.DisplayOnError(message, overwriteLastError);
             return this;
         }
@@ -143,7 +147,7 @@ namespace Tools.ControlValidation
         /// since there is already an error being shown) or overwrite the message and 
         /// display the latest error instead of the first.
         /// <para> </para>
-        /// This overload presents the default message (<see cref="Validator.GlobalDefaultErrorMessage"/>).
+        /// This overload presents the default message (<see cref="Validation.DefaultErrorMessage"/>).
         /// </summary>
         /// <param name="overrideLastError">Whether to overwrite
         /// last error (true) or leave always the first error visible
@@ -160,8 +164,12 @@ namespace Tools.ControlValidation
         /// </summary>
         /// <param name="message">Message to set in provider.</param>
         /// <returns>This validation.</returns>
+        /// <exception cref="Exception">When an empty string is given in parameter <paramref name="message"/>.</exception>
         new public ExtendedValidation<T> DisplayOnSuccess(string message)
         {
+            if (message == string.Empty)
+                throw new Exception("An empty string is not allowed (as it would clear the validation text and thus hide it");
+
             base.DisplayOnSuccess(message);
             return this;
         }
@@ -181,6 +189,7 @@ namespace Tools.ControlValidation
         /// <summary>
         /// Calling this method will make the validation fail. 
         /// Let this be a warn for you. Muahahah.
+        /// <para>This overload displays <see cref="Validation.DefaultErrorMessage"/>.</para>
         /// <para>This method calls <see cref="Validation.End"/> internally.</para>
         /// </summary>
         public void Fail()
@@ -194,14 +203,19 @@ namespace Tools.ControlValidation
         /// </summary>
         /// <param name="errorMessage">Error message to display.</param>
         /// <returns>This validation.</returns>
+        /// <exception cref="Exception">When an empty string is given in parameter <paramref name="errorMessage"/>.</exception>
         public void Fail(string errorMessage)
         {
+            if (errorMessage == string.Empty)
+                throw new Exception("An empty string is not allowed (as it would clear the validation text and thus hide it");
+
             IsValid = false;
             DisplayOnError(errorMessage);
             End();
         }
         /// <summary>
         /// Calling this method will make the validation pass.
+        /// <para>This overload displays <see cref="Validation.DefaultSuccessMessage"/>.</para>
         /// <para>This method calls <see cref="Validation.End"/> internally.</para>
         /// </summary>
         public void Pass()
@@ -213,8 +227,12 @@ namespace Tools.ControlValidation
         /// <para>This method calls <see cref="Validation.End"/> internally.</para>
         /// </summary>
         /// <param name="successMessage">Error message to display.</param>
+        /// <exception cref="Exception">When an empty string is given in parameter <paramref name="successMessage"/>.</exception>
         public void Pass(string successMessage)
         {
+            if (successMessage == string.Empty)
+                throw new Exception("An empty string is not allowed (as it would clear the validation text and thus hide it");
+
             SoftReset();
             DisplayOnSuccess(successMessage);
             End();
@@ -232,7 +250,7 @@ namespace Tools.ControlValidation
         /// <returns>This validation.</returns>
         public ExtendedValidation<T> Unless(Func<T, bool> evaluateExpr)
         {
-            if(evaluateExpr(Control))
+            if (evaluateExpr(Control))
                 Reset();
 
             return this;
