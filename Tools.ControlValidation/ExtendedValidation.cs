@@ -239,6 +239,15 @@ namespace Tools.ControlValidation
         }
 
         /// <summary>
+        /// Calling this method will make the validation disappear
+        /// </summary>
+        public void Clear()
+        {
+            SoftReset();        
+            End(); 
+        }
+
+        /// <summary>
         /// <para>Execute a validation that may invalidate previous validations.</para>
         /// <para>Consider an invalid validation. This means that somewhere along
         /// the chain of validations, at least one of validations has failed and thus the validation is
