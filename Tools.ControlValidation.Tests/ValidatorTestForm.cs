@@ -10,6 +10,14 @@ namespace Tools.ControlValidation.Tests
             InitializeComponent();
         }
 
+        private void ButtonExamplesOnDemand_Click(object sender, EventArgs e)
+        {
+            using (var form = new OnDemanExampleValidationForm())
+            {
+                form.ShowDialog();
+            }
+        }
+
         private void ButtonExamples_Click(object sender, EventArgs e)
         {
             using (var form = new ExampleValidationForm())
@@ -25,7 +33,6 @@ namespace Tools.ControlValidation.Tests
                 form.ShowDialog();
             }
         }
-
     }
 
 }

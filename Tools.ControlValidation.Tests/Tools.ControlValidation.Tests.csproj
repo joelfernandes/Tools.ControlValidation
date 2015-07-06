@@ -61,6 +61,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OnDemanExampleValidationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OnDemanExampleValidationForm.Designer.cs">
+      <DependentUpon>OnDemanExampleValidationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExampleValidationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ErrorCustomizerForm.resx">
       <DependentUpon>ErrorCustomizerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OnDemanExampleValidationForm.resx">
+      <DependentUpon>OnDemanExampleValidationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExampleValidationForm.resx">
       <DependentUpon>ExampleValidationForm.cs</DependentUpon>
