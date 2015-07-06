@@ -86,9 +86,8 @@ namespace Tools.ControlValidation.Tests
                   I want a new computer!"
 
             Rule breaker:
-              a) You wrote "pirate" in the 
-                   above TextBox. In this 
-                   case being a pirate is fine.
+              a) Yeah, a pirate is fine, too!
+                (if you write pirate in first textbox)
              */
 
             Validator.Start(_groupBox)

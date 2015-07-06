@@ -56,6 +56,7 @@
             this._groupBox = new System.Windows.Forms.GroupBox();
             this._radioButtonPirateArgh = new System.Windows.Forms.RadioButton();
             this._buttonSubmit = new System.Windows.Forms.Button();
+            this._radioButtonNobelPrize = new System.Windows.Forms.RadioButton();
             this._groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -201,11 +202,10 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(37, 227);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(142, 104);
+            this.label7.Size = new System.Drawing.Size(159, 91);
             this.label7.TabIndex = 11;
             this.label7.Text = "Rules: \r\n  1) Must say \"Yes, yes! \r\n     I want a new computer!\"\r\n\r\nRule breaker:" +
-    "\r\n a) You wrote \"pirate\" in the \r\n    above TextBox. In this \r\n    case being a " +
-    "pirate is fine.";
+    "\r\n a) Yeah, a pirate is fine, too!\r\n(if you write pirate in first textbox)";
             // 
             // label8
             // 
@@ -314,12 +314,13 @@
             // 
             // _groupBox
             // 
+            this._groupBox.Controls.Add(this._radioButtonNobelPrize);
             this._groupBox.Controls.Add(this._radioButtonPirateArgh);
             this._groupBox.Controls.Add(this._radioButtonGoodBoy);
             this._groupBox.Controls.Add(this._radioButtonMyMomThinks);
             this._groupBox.Location = new System.Drawing.Point(204, 227);
             this._groupBox.Name = "_groupBox";
-            this._groupBox.Size = new System.Drawing.Size(241, 100);
+            this._groupBox.Size = new System.Drawing.Size(241, 131);
             this._groupBox.TabIndex = 14;
             this._groupBox.TabStop = false;
             this._groupBox.Text = "Have you been a good lad?";
@@ -327,7 +328,7 @@
             // _radioButtonPirateArgh
             // 
             this._radioButtonPirateArgh.AutoSize = true;
-            this._radioButtonPirateArgh.Location = new System.Drawing.Point(16, 66);
+            this._radioButtonPirateArgh.Location = new System.Drawing.Point(16, 89);
             this._radioButtonPirateArgh.Name = "_radioButtonPirateArgh";
             this._radioButtonPirateArgh.Size = new System.Drawing.Size(119, 17);
             this._radioButtonPirateArgh.TabIndex = 9;
@@ -345,6 +346,16 @@
             this._buttonSubmit.Text = "Submit";
             this._buttonSubmit.UseVisualStyleBackColor = true;
             this._buttonSubmit.Click += new System.EventHandler(this.ButtonSubmit_Click);
+            // 
+            // _radioButtonNobelPrize
+            // 
+            this._radioButtonNobelPrize.AutoSize = true;
+            this._radioButtonNobelPrize.Location = new System.Drawing.Point(16, 66);
+            this._radioButtonNobelPrize.Name = "_radioButtonNobelPrize";
+            this._radioButtonNobelPrize.Size = new System.Drawing.Size(201, 17);
+            this._radioButtonNobelPrize.TabIndex = 10;
+            this._radioButtonNobelPrize.Text = "I\'ve helped an old lady cross the road";
+            this._radioButtonNobelPrize.UseVisualStyleBackColor = true;
             // 
             // ExampleValidationForm
             // 
@@ -415,5 +426,6 @@
         private System.Windows.Forms.GroupBox _groupBox;
         private System.Windows.Forms.RadioButton _radioButtonPirateArgh;
         private System.Windows.Forms.Button _buttonSubmit;
+        private System.Windows.Forms.RadioButton _radioButtonNobelPrize;
     }
 }
