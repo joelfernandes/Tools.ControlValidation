@@ -83,8 +83,13 @@ namespace Tools.ControlValidation
         private int _errorBlinkRate = 250;
 
         /// <summary>
+        /// A flag indicating whether this validation was valid before calling <see cref="SoftReset"/> on it again.
+        /// </summary>
+        private bool _wasValid;
+
+        /// <summary>
         /// <para>Gets whether this validation output is valid or not.</para> 
-        /// <para>For a validation to become permanently, all that is needed is for one of the validation methods to fail.</para>
+        /// <para>For a validation to become permanently failed, all that is needed is for one of the validation methods to fail.</para>
         /// </summary>
         public bool IsValid
         {
@@ -103,14 +108,10 @@ namespace Tools.ControlValidation
                     {
                         value = true;
                     }
-
-                    var wasValid = _isValid;
-
+                    
                     // using setter, only the first false is accepted. Once false, always false until Reset() is called.
                     _isValid = value;
 
-                    if (wasValid != _isValid)
-                        OnErrorStateChange(false);
                 }
             }
         }
@@ -275,6 +276,9 @@ namespace Tools.ControlValidation
             _successProvider.BlinkStyle = _errorBlinkStyle;
             _successProvider.BlinkRate = _errorBlinkRate;
 
+            if (_wasValid != IsValid)
+                OnErrorStateChange(IsValid);
+
             return IsValid;
         }
 
@@ -283,6 +287,7 @@ namespace Tools.ControlValidation
         /// </summary>
         public void SoftReset()
         {
+            _wasValid = _isValid;
             _isValid = true;
             Negate = false;
             _errorMessage = _successMessage = string.Empty;
@@ -299,12 +304,7 @@ namespace Tools.ControlValidation
         /// <param name="optional">Whether this validation is set to optional.</param>
         internal void Reset(bool optional = false)
         {
-            var wasValid = _isValid;
-
             SoftReset();
-
-            if (!wasValid)
-                OnErrorStateChange(true); // Fire the event, signaling that the validation is valid again.
 
             _optional = optional;
 
